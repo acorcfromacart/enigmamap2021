@@ -1,0 +1,102 @@
+name: enigmamap520
+description: A new Flutter application.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 2.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+
+  appodeal_flutter: ^0.5.0
+  beauty_textfield: ^0.0.1
+  change_app_package_name: ^0.1.2
+  cloud_firestore:
+  firebase_auth: ^0.18.0
+  firebase_core: 0.5.0
+  firebase_messaging: ^5.1.1
+  firebase_storage: ^4.0.0
+  flutter_spinkit: ^4.1.2+1
+  geoflutterfire: 2.2.1
+  google_sign_in: ^4.5.4
+  google_maps_flutter: ^0.5.27+3
+  geolocator: ^5.1.2
+  image_picker: ^0.6.7+11
+  intl: ^0.16.1
+  network_to_file_image: ^2.3.8
+  location: 3.2.4
+  responsive_framework: ^0.1.0
+  share: ^2.0.1
+  sliding_up_panel: ^1.0.2
+  translator: ^0.1.5
+  uuid: ^2.2.2
+  url_launcher: ^6.0.2
+
+  flutter:
+    sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+
+dependency_overrides:
+  intl: ^0.17.0-nullsafety.2
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/montserrat.ttf
+        - asset: fonts/montserrat_bold.ttf
+
+    - family: Proto
+      fonts:
+        - asset: fonts/Prototype.ttf
+
+    - family: Appa
+      fonts:
+        - asset: fonts/apparatus.ttf
+
+    - family: OpenSans
+      fonts:
+        - asset: fonts/opensans.ttf
+
+  uses-material-design: true
+
+  assets:
+    - images/main_icon.png
+    - images/google_icon.png
+    - images/man_with_backpack.png
+    - images/man.png
+    - images/graveyard.png
+    - images/ghost.png
+    - images/casesunclosed.png
+    - images/topcases.png
+    - images/ufo.png
+    - images/icon_splash.png
+    - images/meteor_intro.png
+    - images/ufo_intro.png
+    - images/ghost_intro.png
+    - images/alien_marker.png
+    - images/main.png
+    - images/translate.png
+    - images/alien.png
+    - images/ufo_rounded.png
+    - images/ufo_down.png
+    - images/back_pro.png
+    - images/alien_pro.png
+    - images/background_recorded.png
+    - images/flying_saurce.gif
+
+    - lang/en.json
+    - lang/pt.json
+
