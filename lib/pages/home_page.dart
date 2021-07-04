@@ -1,9 +1,7 @@
 import 'dart:async';
-
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:enigmamap520/FirestoreEvents/event.dart';
 import 'package:enigmamap520/Models/auth.dart';
+import 'package:enigmamap520/events/event.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ///Appodeal
-  bool isAppodealInitialized = false;
 
   ///Translator
   final translator = GoogleTranslator();
@@ -265,8 +261,6 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             siteN = longName;
             mapWindow = _mapPopUp(sc);
-            Appodeal.show(AdType.INTERSTITIAL,
-                placementName: 'interstital must show');
           });
         });
   }

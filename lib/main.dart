@@ -1,4 +1,7 @@
+import 'package:enigmamap520/models/validation.dart';
 import 'package:enigmamap520/pages/about.dart';
+import 'package:enigmamap520/pages/home_page.dart';
+import 'package:enigmamap520/pages/intro.dart';
 import 'package:enigmamap520/pages/privacy_policy.dart';
 import 'package:enigmamap520/pages/pro_version.dart';
 import 'package:enigmamap520/pages/signIn.dart';
@@ -9,8 +12,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'Models/validation.dart';
-import 'Screens/MainScreen/home_page.dart';
 import 'SendForm/get_location_map.dart';
 
 Future<void> main() async {
@@ -45,8 +46,10 @@ class _EnigmaMapState extends State<EnigmaMap> {
       initialRoute: '/validation',
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          case '/intro':
+            return MaterialPageRoute(builder: (_) => IntroScreen());
           case '/map':
-            return MaterialPageRoute(builder: (_) => MainScreen());
+            return MaterialPageRoute(builder: (_) => HomePage());
           case '/signIn':
             return MaterialPageRoute(builder: (_) => SignInScreen());
           case '/rec':
