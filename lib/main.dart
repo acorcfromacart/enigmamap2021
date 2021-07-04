@@ -1,3 +1,4 @@
+import 'package:enigmamap520/models/validation.dart';
 import 'package:enigmamap520/pages/about.dart';
 import 'package:enigmamap520/pages/home_page.dart';
 import 'package:enigmamap520/pages/intro.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'Models/validation.dart';
 import 'SendForm/get_location_map.dart';
 
 Future<void> main() async {
@@ -66,7 +66,7 @@ class _EnigmaMapState extends State<EnigmaMap> {
             return MaterialPageRoute(builder: (_) => ProVersion());
           case '/validation':
           default:
-            return MaterialPageRoute(builder: (_) => IntroScreen());
+            return MaterialPageRoute(builder: (_) => ValidationScreen());
         }
       },
       localizationsDelegates: [

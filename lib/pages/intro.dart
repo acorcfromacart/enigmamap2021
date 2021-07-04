@@ -1,3 +1,4 @@
+import 'package:enigmamap520/models/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
@@ -18,7 +19,7 @@ class IntroScreenState extends State<IntroScreen> {
   @override
   void initState() {
     super.initState();
-
+    checkPref();
     slides.add(
       new Slide(
         title: "Avistamentos",
@@ -28,42 +29,28 @@ class IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
-        "Todos os avestimentos enviados pelos usuários incluindo as notícias são verificados e analisados.",
-        styleDescription: TextStyle(
-            color: Colors.black87,
-            fontSize: 20.0,
-            fontFamily: 'Raleway'),
+            "Todos os avestimentos enviados pelos usuários incluindo as notícias são verificados e analisados.",
+        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Raleway'),
         pathImage: "images/slide1.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Localizações no mapa",
-        styleTitle: TextStyle(
-            color: Colors.black,
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold),
+        styleTitle: TextStyle(color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.bold),
         description:
-        "Acesse os avistamentos de forma mais fácil diretamente no nosso mapa intuitivo.",
-        styleDescription: TextStyle(
-            color: Colors.black87,
-            fontSize: 20.0,
-            fontFamily: 'Raleway'),
+            "Acesse os avistamentos de forma mais fácil diretamente no nosso mapa intuitivo.",
+        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Raleway'),
         pathImage: "images/slide2.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Notificações",
-        styleTitle: TextStyle(
-            color: Colors.black,
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold),
+        styleTitle: TextStyle(color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.bold),
         description:
-        "Receba notificações em tempo real sempre que houver algum avistamento ou notícia sobre OVNIs.",
-        styleDescription: TextStyle(
-            color: Colors.black87,
-            fontSize: 20.0),
+            "Receba notificações em tempo real sempre que houver algum avistamento ou notícia sobre OVNIs.",
+        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0),
         pathImage: "images/slide3.png",
       ),
     );
@@ -113,11 +100,11 @@ class IntroScreenState extends State<IntroScreen> {
             children: <Widget>[
               GestureDetector(
                   child: Image.asset(
-                    currentSlide.pathImage,
-                    width: 200.0,
-                    height: 200.0,
-                    fit: BoxFit.contain,
-                  )),
+                currentSlide.pathImage,
+                width: 200.0,
+                height: 200.0,
+                fit: BoxFit.contain,
+              )),
               Container(
                 child: Text(
                   currentSlide.title,
@@ -152,7 +139,7 @@ class IntroScreenState extends State<IntroScreen> {
 
       // Skip button
       renderSkipBtn: this.renderSkipBtn(),
-      colorSkipBtn:Colors.black87,
+      colorSkipBtn: Colors.black87,
       highlightColorSkipBtn: Colors.black87,
 
       // Next button
@@ -160,7 +147,9 @@ class IntroScreenState extends State<IntroScreen> {
 
       // Done button
       renderDoneBtn: this.renderDoneBtn(),
-      onDonePress: this.onDonePress,
+      onDonePress: (){
+        checkFirstSeen();
+      },
       colorDoneBtn: Colors.black87,
       highlightColorDoneBtn: Colors.black87,
 
@@ -179,22 +168,22 @@ class IntroScreenState extends State<IntroScreen> {
       // Behavior
       scrollPhysics: BouncingScrollPhysics(),
 
-      // On tab change completed
-      onTabChangeCompleted: (){
-        Future checkFirstSeen() async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          bool _seen = (prefs.getBool('seen') ?? false);
-
-          if (_seen) {
-            Navigator.of(context).pushReplacement(
-                new MaterialPageRoute(builder: (context) => new Home()));
-          } else {
-            await prefs.setBool('seen', true);
-            Navigator.of(context).pushReplacement(
-                new MaterialPageRoute(builder: (context) => new IntroScreen()));
-          }
-        }
-      },
     );
+  }
+
+  Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', true);
+    Navigator.of(context)
+        .pushReplacement(new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+  }
+
+  Future checkPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+    if (_seen) {
+      Navigator.of(context)
+          .pushReplacement(new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+    }
   }
 }
