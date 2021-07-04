@@ -11,7 +11,6 @@ environment:
 
 dependencies:
 
-  appodeal_flutter: ^0.5.0
   beauty_textfield: ^0.0.1
   change_app_package_name: ^0.1.2
   cloud_firestore:
@@ -34,6 +33,9 @@ dependencies:
   translator: ^0.1.5
   uuid: ^2.2.2
   url_launcher: ^6.0.2
+  cupertino_icons: ^1.0.2
+  intro_slider: ^2.3.4
+  shared_preferences: ^0.5.12+4
 
   flutter:
     sdk: flutter
@@ -44,7 +46,6 @@ dependencies:
 dependency_overrides:
   intl: ^0.17.0-nullsafety.2
 
-  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,9 @@ flutter:
     - images/alien_pro.png
     - images/background_recorded.png
     - images/flying_saurce.gif
+    - images/slide1.png
+    - images/slide2.png
+    - images/slide3.png
 
     - lang/en.json
     - lang/pt.json

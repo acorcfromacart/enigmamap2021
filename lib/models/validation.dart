@@ -1,4 +1,3 @@
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:enigmamap520/Models/stats_model.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +19,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
       checkingCurrentUser(context);
       getAmount();
     });
-
-    Appodeal.setAppKeys(
-        androidAppKey: 'a970cf6fa722239caa6f61d1f77bdb227ab881acb997978e');
-
-    Appodeal.setInterstitialCallback((event) => print('Interstitial ad triggered the event $event'));
-    Appodeal.initialize(
-        hasConsent: true,
-        adTypes: [AdType.INTERSTITIAL],
-        testMode: false
-    );
   }
 
   @override
