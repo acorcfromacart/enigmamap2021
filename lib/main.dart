@@ -8,7 +8,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'Models/validation.dart';
 import 'Screens/MainScreen/AboutScreen/privacy_policy.dart';
 import 'Screens/MainScreen/AboutScreen/terms.dart';
-import 'Screens/MainScreen/RecordedDatas.dart';
+import 'Screens/MainScreen/recorded_datas.dart';
 import 'Screens/MainScreen/SignInScreen/signIn.dart';
 import 'Screens/MainScreen/AboutScreen/about.dart';
 import 'Screens/MainScreen/main_screen.dart';
