@@ -1,17 +1,16 @@
-import 'package:enigmamap520/Screens/MainScreen/ProVersion/pro_version.dart';
+import 'package:enigmamap520/pages/about.dart';
+import 'package:enigmamap520/pages/privacy_policy.dart';
+import 'package:enigmamap520/pages/pro_version.dart';
+import 'package:enigmamap520/pages/signIn.dart';
+import 'package:enigmamap520/pages/terms.dart';
+import 'package:enigmamap520/recordedDatas/recorded_datas.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
 import 'Models/validation.dart';
-import 'Screens/MainScreen/AboutScreen/privacy_policy.dart';
-import 'Screens/MainScreen/AboutScreen/terms.dart';
-import 'Screens/MainScreen/recorded_datas.dart';
-import 'Screens/MainScreen/SignInScreen/signIn.dart';
-import 'Screens/MainScreen/AboutScreen/about.dart';
-import 'Screens/MainScreen/main_screen.dart';
+import 'Screens/MainScreen/home_page.dart';
 import 'SendForm/get_location_map.dart';
 
 Future<void> main() async {

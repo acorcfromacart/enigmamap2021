@@ -11,12 +11,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:translator/translator.dart';
 
-class MainScreen extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _HomePageState extends State<HomePage> {
   ///Appodeal
   bool isAppodealInitialized = false;
 
