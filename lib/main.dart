@@ -41,7 +41,7 @@ class _EnigmaMapState extends State<EnigmaMap> {
           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
         ]
       ),
-      title: 'Enigma Map',
+      title: 'Ufo Tracker',
       debugShowCheckedModeBanner: false,
       initialRoute: '/validation',
       onGenerateRoute: (settings) {

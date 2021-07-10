@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:label="Enigma Map"
+        android:label="Ufo Tracker"
         android:icon="@mipmap/ic_launcher"
         tools:replace="android:label">
 

@@ -24,33 +24,37 @@ class IntroScreenState extends State<IntroScreen> {
       new Slide(
         title: "Avistamentos",
         styleTitle: TextStyle(
-            color: Colors.black,
+            color: Colors.white70,
             fontSize: 30.0,
             fontWeight: FontWeight.bold,
             fontFamily: 'RobotoMono'),
         description:
             "Todos os avestimentos enviados pelos usuários incluindo as notícias são verificados e analisados.",
-        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Raleway'),
+        styleDescription: TextStyle(
+            color: Colors.white70, fontSize: 20.0, fontFamily: 'Raleway'),
         pathImage: "images/slide1.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Localizações no mapa",
-        styleTitle: TextStyle(color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.bold),
+        styleTitle: TextStyle(
+            color: Colors.white70, fontSize: 30.0, fontWeight: FontWeight.bold),
         description:
             "Acesse os avistamentos de forma mais fácil diretamente no nosso mapa intuitivo.",
-        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0, fontFamily: 'Raleway'),
+        styleDescription: TextStyle(
+            color: Colors.white70, fontSize: 20.0, fontFamily: 'Raleway'),
         pathImage: "images/slide2.png",
       ),
     );
     slides.add(
       new Slide(
         title: "Notificações",
-        styleTitle: TextStyle(color: Colors.black, fontSize: 30.0, fontWeight: FontWeight.bold),
+        styleTitle: TextStyle(
+            color: Colors.white70, fontSize: 30.0, fontWeight: FontWeight.bold),
         description:
             "Receba notificações em tempo real sempre que houver algum avistamento ou notícia sobre OVNIs.",
-        styleDescription: TextStyle(color: Colors.black87, fontSize: 20.0),
+        styleDescription: TextStyle(color: Colors.white70, fontSize: 20.0),
         pathImage: "images/slide3.png",
       ),
     );
@@ -131,59 +135,67 @@ class IntroScreenState extends State<IntroScreen> {
     return tabs;
   }
 
+  ButtonStyle myButtonStyle() {
+    return ButtonStyle(
+      shape: MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
+      backgroundColor: MaterialStateProperty.all<Color>(Color(0x33F3B4BA)),
+      overlayColor: MaterialStateProperty.all<Color>(Color(0x33FFA8B0)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new IntroSlider(
-      // List slides
-      // slides: this.slides,
+    return Scaffold(
+      body: IntroSlider(
+        // Show or hide status bar
 
-      // Skip button
-      renderSkipBtn: this.renderSkipBtn(),
-      colorSkipBtn: Colors.black87,
-      highlightColorSkipBtn: Colors.black87,
+        // Skip button
+        renderSkipBtn: this.renderSkipBtn(),
+        skipButtonStyle: myButtonStyle(),
 
-      // Next button
-      renderNextBtn: this.renderNextBtn(),
+        // Next button
+        renderNextBtn: this.renderNextBtn(),
+        nextButtonStyle: myButtonStyle(),
 
-      // Done button
-      renderDoneBtn: this.renderDoneBtn(),
-      onDonePress: (){
-        checkFirstSeen();
-      },
-      colorDoneBtn: Colors.black87,
-      highlightColorDoneBtn: Colors.black87,
+        // Done button
+        renderDoneBtn: this.renderDoneBtn(),
+        onDonePress: () {
+          checkFirstSeen();
+        },
 
-      // Dot indicator
-      colorDot: Colors.black87,
-      sizeDot: 13.0,
-      //typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
+        // Dot indicator
+        colorDot: Colors.black87,
+        colorActiveDot: Colors.white70,
 
-      // Tabs
-      listCustomTabs: this.renderListCustomTabs(),
-      backgroundColorAllSlides: Colors.white,
-      refFuncGoToTab: (refFunc) {
-        this.goToTab = refFunc;
-      },
+        sizeDot: 13.0,
+        //typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
 
-      // Behavior
-      scrollPhysics: BouncingScrollPhysics(),
+        // Tabs
+        listCustomTabs: this.renderListCustomTabs(),
+        backgroundColorAllSlides: Colors.black87,
+        refFuncGoToTab: (refFunc) {
+          this.goToTab = refFunc;
+        },
 
+        // Behavior
+        scrollPhysics: BouncingScrollPhysics(),
+      ),
     );
   }
 
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('seen', true);
-    Navigator.of(context)
-        .pushReplacement(new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+    Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (context) => new ValidationScreen()));
   }
 
   Future checkPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
-      Navigator.of(context)
-          .pushReplacement(new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new ValidationScreen()));
     }
   }
 }

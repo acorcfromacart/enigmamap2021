@@ -47,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   enigmaTxt() {
     return Text(
-      'Enigma Map',
+      'Ufo Tracker',
       style: TextStyle(
           fontSize: 42,
           color: Colors.white,
@@ -63,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
         AppLocalizations.instance.translate("description_text"),
         textAlign: TextAlign.center,
         style:
-        TextStyle(fontSize: 24, color: Colors.grey, fontFamily: 'Roboto'),
+            TextStyle(fontSize: 24, color: Colors.grey, fontFamily: 'Roboto'),
       ),
     );
   }
@@ -73,10 +73,10 @@ class _SignInScreenState extends State<SignInScreen> {
       child: Align(
         alignment: FractionalOffset.bottomCenter,
         child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 42),
+          padding: const EdgeInsets.only(left: 32, right: 32, bottom: 42),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 72,
+            height: 62,
             child: ElevatedButton(
               child: Text(
                 AppLocalizations.instance.translate("sign_in"),

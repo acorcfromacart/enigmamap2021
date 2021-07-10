@@ -16,20 +16,16 @@ class SendForm extends StatefulWidget {
   final String longitude;
   final String latitude;
 
-  SendForm(
-      {Key key,
-        @required this.latitude,
-        @required this.longitude})
+  SendForm({Key key, @required this.latitude, @required this.longitude})
       : super(key: key);
 
   @override
-  _SendFormState createState() =>
-      _SendFormState(longitude, latitude);
+  _SendFormState createState() => _SendFormState(longitude, latitude);
 }
 
 class _SendFormState extends State<SendForm> {
-  StorageReference storageRef = FirebaseStorage.instance.ref();
-  final firestoreInstance = Firestore.instance;
+  Reference storageRef = FirebaseStorage.instance.ref();
+  final firestoreInstance = FirebaseFirestore.instance;
   Geoflutterfire geo = Geoflutterfire();
   File file;
   final picker = ImagePicker();
@@ -37,7 +33,7 @@ class _SendFormState extends State<SendForm> {
   bool isUploading = false;
   String userName;
   String userImg;
-  StorageUploadTask task;
+  UploadTask task;
   bool isTyped = false;
   String standardImg =
       'https://firebasestorage.googleapis.com/v0/b/enigma-map-87c99.appspot.com/o/enigmamaplogo.png?alt=media&token=aa2c501d-b885-49bc-9a5d-fd7695ed36b8';
@@ -61,7 +57,7 @@ class _SendFormState extends State<SendForm> {
 
   Future getImage() async {
     final pickedFile =
-    await picker.getImage(source: ImageSource.gallery, imageQuality: 13);
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 13);
     setState(() {
       if (pickedFile != null) {
         file = File(pickedFile.path);
@@ -88,8 +84,7 @@ class _SendFormState extends State<SendForm> {
   final fontController = TextEditingController(); //Fonte do usuário
 
   checkTextFieldIsEmptyOrNot() {
-    if (titleController.text.isEmpty ||
-        descriptionController.text.isEmpty) {
+    if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
       isTyped = false;
     } else {
       isTyped = true;
@@ -112,140 +107,140 @@ class _SendFormState extends State<SendForm> {
 
     return isUploading == false
         ? Scaffold(
-      backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: true,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 24),
-                child: Container(
-                  child: Text(
-                    AppLocalizations.instance
-                        .translate('fill_the_fields_two'),
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              file == null
-                  ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 82,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blueGrey,
-                  ),
-                  child: GestureDetector(
-                    onTap: getImage,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.backup,
-                          color: Colors.white70,
+            backgroundColor: Colors.black,
+            resizeToAvoidBottomInset: true,
+            body: SafeArea(
+              child: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 24),
+                      child: Container(
+                        child: Text(
+                          AppLocalizations.instance
+                              .translate('fill_the_fields_two'),
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
-                        Center(
-                          child: Text(
-                            AppLocalizations.instance
-                                .translate('pick_image'),
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 18),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    file == null
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 82,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blueGrey,
+                              ),
+                              child: GestureDetector(
+                                onTap: getImage,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.backup,
+                                      color: Colors.white70,
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        AppLocalizations.instance
+                                            .translate('pick_image'),
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 18),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        : showPhotoDetails(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    BeautyTextfield(
+                      width: double.maxFinite,
+                      height: 60,
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.text,
+                      placeholder: AppLocalizations.instance.translate('title'),
+                      maxLines: 2,
+                      onChanged: (text) {
+                        titleController.text = text;
+                        print(titleController.text);
+                        if (text.isEmpty) {
+                          isTyped = false;
+                        } else {
+                          isTyped = true;
+                        }
+                      },
+                      prefixIcon: Icon(Icons.label),
+                    ),
+                    BeautyTextfield(
+                      width: double.maxFinite,
+                      height: 120,
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.text,
+                      placeholder:
+                          AppLocalizations.instance.translate('description'),
+                      autocorrect: false,
+                      onChanged: (text) {
+                        descriptionController.text = text;
+                        print(descriptionController.text);
+                      },
+                      prefixIcon: Icon(Icons.edit),
+                    ),
+                    BeautyTextfield(
+                      width: double.maxFinite,
+                      height: 60,
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.text,
+                      placeholder:
+                          AppLocalizations.instance.translate('first_detail'),
+                      onChanged: (text) {
+                        firstDetailController.text = text;
+                        print(firstDetailController.text);
+                      },
+                      prefixIcon: Icon(Icons.add),
+                    ),
+                    BeautyTextfield(
+                      width: double.maxFinite,
+                      height: 60,
+                      duration: Duration(milliseconds: 300),
+                      inputType: TextInputType.text,
+                      placeholder: AppLocalizations.instance.translate('font'),
+                      onChanged: (text) {
+                        fontController.text = text;
+                        print(fontController.text);
+                      },
+                      prefixIcon: Icon(Icons.public),
+                    ),
+                    Text(
+                      'Caso não tenha fonte, deixe em branco',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    isTyped == true
+                        ? sendButton()
+                        : SizedBox(
+                            height: 0,
+                          ),
+                  ],
                 ),
-              )
-                  : showPhotoDetails(),
-              SizedBox(
-                height: 10,
               ),
-              BeautyTextfield(
-                width: double.maxFinite,
-                height: 60,
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.text,
-                placeholder: AppLocalizations.instance
-                    .translate('title'),
-                maxLines: 2,
-                onChanged: (text) {
-                  titleController.text = text;
-                  print(titleController.text);
-                  if (text.isEmpty) {
-                    isTyped = false;
-                  } else {
-                    isTyped = true;
-                  }
-                },
-                prefixIcon: Icon(Icons.label),
-              ),
-              BeautyTextfield(
-                width: double.maxFinite,
-                height: 120,
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.text,
-                placeholder: AppLocalizations.instance
-                    .translate('description'),
-                autocorrect: false,
-                onChanged: (text) {
-                  descriptionController.text = text;
-                  print(descriptionController.text);
-                },
-                prefixIcon: Icon(Icons.edit),
-              ),
-              BeautyTextfield(
-                width: double.maxFinite,
-                height: 60,
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.text,
-                placeholder: AppLocalizations.instance
-                    .translate('first_detail'),
-                onChanged: (text) {
-                  firstDetailController.text = text;
-                  print(firstDetailController.text);
-                },
-                prefixIcon: Icon(Icons.add),
-              ),
-              BeautyTextfield(
-                width: double.maxFinite,
-                height: 60,
-                duration: Duration(milliseconds: 300),
-                inputType: TextInputType.text,
-                placeholder: AppLocalizations.instance
-                    .translate('font'),
-                onChanged: (text) {
-                  fontController.text = text;
-                  print(fontController.text);
-                },
-                prefixIcon: Icon(Icons.public),
-              ),
-              Text('Caso não tenha fonte, deixe em branco', style: TextStyle(color: Colors.white70),),
-              SizedBox(
-                height: 32,
-              ),
-              isTyped == true
-                  ? sendButton()
-                  : SizedBox(
-                height: 0,
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    )
+            ),
+          )
         : circularProgress();
   }
 
@@ -262,9 +257,9 @@ class _SendFormState extends State<SendForm> {
   }
 
   Future<String> uploadImage(imageFile) async {
-    StorageUploadTask uploadTask =
-    storageRef.child("post_$postId.jpg").putFile(imageFile);
-    StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
+    UploadTask uploadTask =
+        storageRef.child("post_$postId.jpg").putFile(imageFile);
+    //TaskSnapshot storageSnap = await uploadTask.onComplete;
 
     setState(() {
       imgID = ("post_$postId.jpg");
@@ -272,17 +267,15 @@ class _SendFormState extends State<SendForm> {
       return circularProgress();
     });
 
-    if (uploadTask.isInProgress) {
-      return circularProgress();
-    } /*else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UploadCompleteScreen()),
-      );
-    }*/
+    // if (uploadTask.) {
+    //   return circularProgress();
+    // }
 
-    String downloadUrl = await storageSnap.ref.getDownloadURL();
+    uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) async{
+
+      String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
+    });
   }
 
   handleSubmit() async {
@@ -375,8 +368,7 @@ class _SendFormState extends State<SendForm> {
             children: [
               Center(
                 child: Text(
-                  AppLocalizations.instance
-                      .translate('send_button'),
+                  AppLocalizations.instance.translate('send_button'),
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               )
