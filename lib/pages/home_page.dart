@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:enigmamap520/Models/auth.dart';
 import 'package:enigmamap520/events/event.dart';
+import 'package:enigmamap520/models/auth.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   ///Translator
   final translator = GoogleTranslator();
   bool isTranslated = false;
@@ -52,12 +51,9 @@ class _HomePageState extends State<HomePage> {
     processing = false;
     _fabHeight = _initFabHeight;
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 1.2),
-        'images/alien_marker.png')
+            'images/alien_marker.png')
         .then((d) {
       customIcon = d;
-    });
-    setState(() {
-      print("*****************$siteN");
     });
   }
 
@@ -145,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   radius: 42,
                   child: ClipOval(
                     child: Image.network(
-                      imageUrl,
+                    imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -158,15 +154,17 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            letterSpacing: 1),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: name != null
+                          ? Text(
+                              name,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  letterSpacing: 1),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          : Text(''),
                     ),
                     Image.asset(
                       'images/alien.png',
@@ -182,14 +180,16 @@ class _HomePageState extends State<HomePage> {
             children: [
               ListTile(
                 leading: Icon(Icons.leaderboard_outlined),
-                title: Text(AppLocalizations.instance.translate("drawer_first")),
+                title:
+                    Text(AppLocalizations.instance.translate("drawer_first")),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/rec');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.info_outline),
-                title: Text(AppLocalizations.instance.translate("drawer_about")),
+                title:
+                    Text(AppLocalizations.instance.translate("drawer_about")),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/about');
                 },
@@ -210,7 +210,8 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTile(
                 leading: Icon(Icons.logout),
-                title: Text(AppLocalizations.instance.translate("drawer_logout")),
+                title:
+                    Text(AppLocalizations.instance.translate("drawer_logout")),
                 onTap: () {
                   signOutWithGoogle(context);
                 },
@@ -249,10 +250,10 @@ class _HomePageState extends State<HomePage> {
 
   ///Building Marker
   Marker markerHelper(
-      String longName,
-      String shortName,
-      GeoPoint loc,
-      ) {
+    String longName,
+    String shortName,
+    GeoPoint loc,
+  ) {
     return Marker(
         markerId: MarkerId(shortName),
         position: LatLng(loc.latitude, loc.longitude),
@@ -281,10 +282,10 @@ class _HomePageState extends State<HomePage> {
           );
         DocumentSnapshot query = snapshot.data.docs[0];
 
-        String title = query.data()['title'];
-        String imgURL = query.data()['ImageURL'];
-        String description = query.data()['description'];
-        String fonte = query.data()['fontUrl'];
+        String title = query['title'];
+        String imgURL = query['ImageURL'];
+        String description = query['description'];
+        String fonte = query['fontUrl'];
 
         return Container(
           decoration: BoxDecoration(
@@ -334,7 +335,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 20, left: 32, right: 32),
+                        const EdgeInsets.only(top: 20, left: 32, right: 32),
                     child: Container(
                       margin: EdgeInsets.only(left: 10),
                       width: MediaQuery.of(context).size.width,
@@ -350,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 32, right: 32, top: 20),
+                        const EdgeInsets.only(left: 32, right: 32, top: 20),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 52,
@@ -362,7 +363,9 @@ class _HomePageState extends State<HomePage> {
                               Icons.translate,
                               color: Colors.black,
                             ),
-                            SizedBox(width: 20,),
+                            SizedBox(
+                              width: 20,
+                            ),
                             Text(
                               'Translate to English',
                               style: TextStyle(
@@ -376,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                             onPrimary: Colors.white,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(20)))),
+                                    BorderRadius.all(Radius.circular(20)))),
                         onPressed: () {
                           setState(() {
                             translator
@@ -394,24 +397,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 32, right: 32, top: 24),
+                        const EdgeInsets.only(left: 32, right: 32, top: 24),
                     child: isTranslated == false
                         ? Text(
-                      description,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(color: Colors.white70, fontSize: 21),
-                      softWrap: true,
-                    )
+                            description,
+                            textAlign: TextAlign.justify,
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 21),
+                            softWrap: true,
+                          )
                         : Text(
-                      descriptionTranslated,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(color: Colors.white70, fontSize: 21),
-                      softWrap: true,
-                    ),
+                            descriptionTranslated,
+                            textAlign: TextAlign.justify,
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 21),
+                            softWrap: true,
+                          ),
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 32, right: 32, top: 24),
+                        const EdgeInsets.only(left: 32, right: 32, top: 24),
                     child: Text(
                       'Fonte: $fonte',
                       textAlign: TextAlign.justify,
@@ -434,16 +439,18 @@ class _HomePageState extends State<HomePage> {
   ///Building map
   _buildGoogleMap(BuildContext context, DocumentSnapshot query,
       List<Marker> locationsList) {
-    GeoPoint campusLoc = query.data()['Location'];
-    double campusZoom = query.data()['Zoom'].toDouble();
+    GeoPoint campusLoc = query['Location'];
+    double campusZoom = query['Zoom'].toDouble();
     return StreamBuilder(
       stream: checkingCategory().asStream(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child:  Text(AppLocalizations.instance.translate("loading")));
+        if (!snapshot.hasData)
+          return Center(
+              child: Text(AppLocalizations.instance.translate("loading")));
         for (int i = 0; i < snapshot.data.docs.length; i++) {
           DocumentSnapshot snap = snapshot.data.docs[i];
-          locationsList.add(markerHelper(snap.data()['siteName'],
-              snap.data()['title'], snap.data()['location']));
+          locationsList.add(
+              markerHelper(snap['siteName'], snap['title'], snap['location']));
         }
         return Column(
           children: [
