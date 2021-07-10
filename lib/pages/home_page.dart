@@ -137,11 +137,19 @@ class _HomePageState extends State<HomePage> {
           DrawerHeader(
             child: ListView(
               children: [
-                CircleAvatar(
+                imageUrl != null ? CircleAvatar(
                   radius: 42,
                   child: ClipOval(
                     child: Image.network(
                     imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ): CircleAvatar(
+                  radius: 42,
+                  child: ClipOval(
+                    child: Image.network(
+                    'https://i.pinimg.com/originals/45/03/47/450347b23049826628adb86af14c3871.png',
                       fit: BoxFit.cover,
                     ),
                   ),
