@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:translator/translator.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,13 +20,14 @@ class _HomePageState extends State<HomePage> {
   final translator = GoogleTranslator();
   bool isTranslated = false;
   String descriptionTranslated;
+  String _mapStyle;
 
   ///Navegador lateral
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   ///Declaring
   Widget mapWindow = Container();
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController mapController;
   double screenWidth;
   BitmapDescriptor customIcon;
   String siteN;
@@ -50,6 +52,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     processing = false;
     _fabHeight = _initFabHeight;
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
     BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 1.2),
             'images/alien_marker.png')
         .then((d) {
@@ -137,23 +142,25 @@ class _HomePageState extends State<HomePage> {
           DrawerHeader(
             child: ListView(
               children: [
-                imageUrl != null ? CircleAvatar(
-                  radius: 42,
-                  child: ClipOval(
-                    child: Image.network(
-                    imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ): CircleAvatar(
-                  radius: 42,
-                  child: ClipOval(
-                    child: Image.network(
-                    'https://i.pinimg.com/originals/45/03/47/450347b23049826628adb86af14c3871.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                imageUrl != null
+                    ? CircleAvatar(
+                        radius: 42,
+                        child: ClipOval(
+                          child: Image.network(
+                            imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 42,
+                        child: ClipOval(
+                          child: Image.network(
+                            'https://i.pinimg.com/originals/45/03/47/450347b23049826628adb86af14c3871.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                 SizedBox(
                   height: 24,
                 ),
@@ -468,12 +475,12 @@ class _HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width,
                 child: GoogleMap(
                   zoomGesturesEnabled: true,
-                  mapType: MapType.terrain,
                   initialCameraPosition: CameraPosition(
                       target: LatLng(campusLoc.latitude, campusLoc.longitude),
                       zoom: campusZoom),
                   onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
+                    mapController = controller;
+                    mapController.setMapStyle(_mapStyle);
                   },
                   markers: Set.from(locationsList),
                   onTap: (argument) async {
