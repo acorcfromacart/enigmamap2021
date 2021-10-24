@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
     final List<Marker> locationsList = <Marker>[];
     _panelHeightOpen = MediaQuery.of(context).size.height * .80;
 
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('Categories')
           .where('CategoryName', isEqualTo: 'Ovnis')
@@ -482,8 +482,8 @@ class _HomePageState extends State<HomePage> {
     List<Marker> locationsList,
   ) {
     final GeoPoint campusLoc = query['Location'] as GeoPoint;
-    final double campusZoom = query['Zoom'] as double;
-    return StreamBuilder<QuerySnapshot<Object>>(
+    final num campusZoom = query['Zoom'] as num;
+    return StreamBuilder(
       stream: checkingCategory().asStream(),
       builder: (
         BuildContext context,
@@ -516,7 +516,7 @@ class _HomePageState extends State<HomePage> {
                   mapType: MapType.terrain,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(campusLoc.latitude, campusLoc.longitude),
-                    zoom: campusZoom,
+                    zoom: campusZoom.toDouble(),
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     mapController = controller;
