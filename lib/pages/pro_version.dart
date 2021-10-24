@@ -2,7 +2,8 @@ import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const _url = 'https://play.google.com/store/apps/details?id=com.fivetwozeroapps.enima_map_pro';
+const _url =
+    'https://play.google.com/store/apps/details?id=com.fivetwozeroapps.enima_map_pro';
 
 class ProVersion extends StatefulWidget {
   @override
@@ -21,35 +22,40 @@ class _ProVersionState extends State<ProVersion> {
                 Container(
                   height: MediaQuery.of(context).size.height / 2.2,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage('images/back_pro.png')),
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20))),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('images/back_pro.png'),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_outlined,
-                        size: 32,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/map');
-                      }),
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      size: 32,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/map');
+                    },
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 72, left: 21, right: 80),
                   child: Text(
-                    AppLocalizations.instance.translate("pro_text"),
+                    AppLocalizations.instance.translate('pro_text'),
                     textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -67,16 +73,16 @@ class _ProVersionState extends State<ProVersion> {
               padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.update_outlined,
                     color: Colors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                   ),
                   Flexible(
                     child: Text(
-                      AppLocalizations.instance.translate("first_pro"),
+                      AppLocalizations.instance.translate('first_pro'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -91,16 +97,16 @@ class _ProVersionState extends State<ProVersion> {
               padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.notifications_none,
                     color: Colors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                   ),
                   Flexible(
                     child: Text(
-                      AppLocalizations.instance.translate("second_pro"),
+                      AppLocalizations.instance.translate('second_pro'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -115,16 +121,16 @@ class _ProVersionState extends State<ProVersion> {
               padding: const EdgeInsets.only(left: 32, right: 32, top: 32),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.new_releases_sharp,
                     color: Colors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                   ),
                   Flexible(
                     child: Text(
-                      AppLocalizations.instance.translate("third_pro"),
+                      AppLocalizations.instance.translate('third_pro'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -137,19 +143,23 @@ class _ProVersionState extends State<ProVersion> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                  left: 32, right: 32, top: 32, bottom: 32),
+                left: 32,
+                right: 32,
+                top: 32,
+                bottom: 32,
+              ),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.gps_fixed_outlined,
                     color: Colors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                   ),
                   Flexible(
                     child: Text(
-                      AppLocalizations.instance.translate("fouth_pro"),
+                      AppLocalizations.instance.translate('fouth_pro'),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -165,8 +175,12 @@ class _ProVersionState extends State<ProVersion> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 16, right: 16, bottom: 32, top: 32),
-                  child: Container(
+                    left: 16,
+                    right: 16,
+                    bottom: 32,
+                    top: 32,
+                  ),
+                  child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 52,
                     child: ElevatedButton(
@@ -177,7 +191,9 @@ class _ProVersionState extends State<ProVersion> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Text(AppLocalizations.instance.translate("be_premium")),
+                      child: Text(
+                        AppLocalizations.instance.translate('be_premium'),
+                      ),
                     ),
                   ),
                 ),
@@ -189,8 +205,7 @@ class _ProVersionState extends State<ProVersion> {
     );
   }
 
-  void _launchURL() async => await canLaunch(_url)
+  dynamic _launchURL() async => await canLaunch(_url)
       ? await launch(_url)
       : throw 'Could not launch $_url';
-
 }

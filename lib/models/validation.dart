@@ -19,9 +19,9 @@ class _ValidationScreenState extends State<ValidationScreen> {
     checkPref();
   }
 
-  Future checkPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
+  Future<void> checkPref() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool _seen = prefs.getBool('seen') ?? false;
     if (_seen) {
       setState(() {
         getCurrentUser(context);
@@ -29,32 +29,42 @@ class _ValidationScreenState extends State<ValidationScreen> {
         getAmount();
       });
     } else {
-      Navigator.of(context)
-          .pushReplacement(new MaterialPageRoute(builder: (context) => new IntroScreen()));
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<dynamic>(
+          builder: (
+            BuildContext context,
+          ) =>
+              const IntroScreen(),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final spinKit = SpinKitSquareCircle(
+    const SpinKitSquareCircle spinKit = SpinKitSquareCircle(
       color: Colors.white,
-      size: 50.0,
     );
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Text(
-            AppLocalizations.instance.translate("loading"),
-            style: TextStyle(color: Colors.white),
+            AppLocalizations.instance.translate('loading'),
+            style: const TextStyle(color: Colors.white),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           spinKit,
         ],
       ),
     );
+  }
+
+  void onButtonTapped(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }

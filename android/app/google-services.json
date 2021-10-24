@@ -1,0 +1,184 @@
+{
+  "project_info": {
+    "project_number": "76267758513",
+    "firebase_url": "https://enigma-map-87c99.firebaseio.com",
+    "project_id": "enigma-map-87c99",
+    "storage_bucket": "enigma-map-87c99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76267758513:android:94baab0dcd26de9b2c1390",
+        "android_client_info": {
+          "package_name": "com.fivetwozeroapps.enigma_add"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76267758513-c9d0ab8enlc63fm5jju0ae4b6beq8rht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigma_add",
+            "certificate_hash": "ab513598a8792363c316f11f672ed5da37a4f486"
+          }
+        },
+        {
+          "client_id": "76267758513-m5vjg8qpkcsvqgigrvkjk8e8br06t69m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigma_add",
+            "certificate_hash": "d822f74f244b8e8f5f5cc3206efca277461f0e70"
+          }
+        },
+        {
+          "client_id": "76267758513-rd2p3gboil6o64efl8kp4q05h5ps2r8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigma_add",
+            "certificate_hash": "9f1e21a2f89d483e2f7d3c2a593838b2ddf4639c"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFKvnSih1mynaNQTPt5YVRh_4_QFgRC5Q"
+        },
+        {
+          "current_key": "AIzaSyA2S4QLMe36RoZpkINhY-ELH5NCHPvlPOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76267758513-cponr8nvr7h15mqah2i3bt3blkin3epp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.520apps.enigmamap520"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76267758513:android:a650158fc0b7e5e62c1390",
+        "android_client_info": {
+          "package_name": "com.fivetwozeroapps.enigmamap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76267758513-47t249g5of835juro43og1d7072ehdib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigmamap",
+            "certificate_hash": "d822f74f244b8e8f5f5cc3206efca277461f0e70"
+          }
+        },
+        {
+          "client_id": "76267758513-deauebho2jbul0oqdru46gir3tqmmg95.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigmamap",
+            "certificate_hash": "9f1e21a2f89d483e2f7d3c2a593838b2ddf4639c"
+          }
+        },
+        {
+          "client_id": "76267758513-feom63khsrnjhq6n4cj7rqj2qplsqgfh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigmamap",
+            "certificate_hash": "5f1f732c0a5523d1f3cde75b343ec45e365a194a"
+          }
+        },
+        {
+          "client_id": "76267758513-fqb4oddg2uqoer9b5ao5gst5dgsmiir2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigmamap",
+            "certificate_hash": "ab513598a8792363c316f11f672ed5da37a4f486"
+          }
+        },
+        {
+          "client_id": "76267758513-pk23la8pk99klvn5icthr16nosvricme.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enigmamap",
+            "certificate_hash": "df7e3a5d9b0d58b5b61e2bf2c4251650e70d40c3"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFKvnSih1mynaNQTPt5YVRh_4_QFgRC5Q"
+        },
+        {
+          "current_key": "AIzaSyA2S4QLMe36RoZpkINhY-ELH5NCHPvlPOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76267758513-cponr8nvr7h15mqah2i3bt3blkin3epp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.520apps.enigmamap520"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76267758513:android:f236a5e0a3b300042c1390",
+        "android_client_info": {
+          "package_name": "com.fivetwozeroapps.enima_map_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76267758513-dinnqlh1nodc0i34cl2pl5bhpvon70ap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enima_map_pro",
+            "certificate_hash": "9f1e21a2f89d483e2f7d3c2a593838b2ddf4639c"
+          }
+        },
+        {
+          "client_id": "76267758513-pbkuo7h3l1qcj3j0mo6333cctjkd508n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fivetwozeroapps.enima_map_pro",
+            "certificate_hash": "410522da6920953dd0500993863ab41216e83d9b"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFKvnSih1mynaNQTPt5YVRh_4_QFgRC5Q"
+        },
+        {
+          "current_key": "AIzaSyA2S4QLMe36RoZpkINhY-ELH5NCHPvlPOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76267758513-cponr8nvr7h15mqah2i3bt3blkin3epp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.520apps.enigmamap520"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

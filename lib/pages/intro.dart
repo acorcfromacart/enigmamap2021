@@ -1,18 +1,17 @@
-import 'package:enigmamap520/models/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroScreen extends StatefulWidget {
-  IntroScreen({Key key}) : super(key: key);
+  const IntroScreen({Key key}) : super(key: key);
 
   @override
-  IntroScreenState createState() => new IntroScreenState();
+  IntroScreenState createState() => IntroScreenState();
 }
 
 class IntroScreenState extends State<IntroScreen> {
-  List<Slide> slides = new List();
+  List<Slide> slides = [];
 
   Function goToTab;
 
@@ -21,56 +20,72 @@ class IntroScreenState extends State<IntroScreen> {
     super.initState();
     checkPref();
     slides.add(
-      new Slide(
-        title: "Avistamentos",
-        styleTitle: TextStyle(
-            color: Colors.white70,
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'RobotoMono'),
+      Slide(
+        title: 'Avistamentos',
+        styleTitle: const TextStyle(
+          color: Colors.white70,
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'RobotoMono',
+        ),
         description:
-            "Todos os avestimentos enviados pelos usuários incluindo as notícias são verificados e analisados.",
-        styleDescription: TextStyle(
-            color: Colors.white70, fontSize: 20.0, fontFamily: 'Raleway'),
-        pathImage: "images/slide1.png",
+            'Todos os avestimentos enviados pelos usuários incluindo as notícias são verificados e analisados.',
+        styleDescription: const TextStyle(
+          color: Colors.white70,
+          fontSize: 20.0,
+          fontFamily: 'Raleway',
+        ),
+        pathImage: 'images/slide1.png',
       ),
     );
     slides.add(
-      new Slide(
-        title: "Localizações no mapa",
-        styleTitle: TextStyle(
-            color: Colors.white70, fontSize: 30.0, fontWeight: FontWeight.bold),
+      Slide(
+        title: 'Localizações no mapa',
+        styleTitle: const TextStyle(
+          color: Colors.white70,
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+        ),
         description:
-            "Acesse os avistamentos de forma mais fácil diretamente no nosso mapa intuitivo.",
-        styleDescription: TextStyle(
-            color: Colors.white70, fontSize: 20.0, fontFamily: 'Raleway'),
-        pathImage: "images/slide2.png",
+            'Acesse os avistamentos de forma mais fácil diretamente no nosso mapa intuitivo.',
+        styleDescription: const TextStyle(
+          color: Colors.white70,
+          fontSize: 20.0,
+          fontFamily: 'Raleway',
+        ),
+        pathImage: 'images/slide2.png',
       ),
     );
     slides.add(
-      new Slide(
-        title: "Notificações",
-        styleTitle: TextStyle(
-            color: Colors.white70, fontSize: 30.0, fontWeight: FontWeight.bold),
+      Slide(
+        title: 'Notificações',
+        styleTitle: const TextStyle(
+          color: Colors.white70,
+          fontSize: 30.0,
+          fontWeight: FontWeight.bold,
+        ),
         description:
-            "Receba notificações em tempo real sempre que houver algum avistamento ou notícia sobre OVNIs.",
-        styleDescription: TextStyle(color: Colors.white70, fontSize: 20.0),
-        pathImage: "images/slide3.png",
+            'Receba notificações em tempo real sempre que houver algum avistamento ou notícia sobre OVNIs.',
+        styleDescription: const TextStyle(
+          color: Colors.white70,
+          fontSize: 20.0,
+        ),
+        pathImage: 'images/slide3.png',
       ),
     );
   }
 
   void onDonePress() {
     // Back to the first tab
-    this.goToTab(0);
+    goToTab(0);
   }
 
-  void onTabChangeCompleted(index) {
+  void onTabChangeCompleted(dynamic index) {
     // Index of current tab is focused
   }
 
   Widget renderNextBtn() {
-    return Icon(
+    return const Icon(
       Icons.navigate_next,
       color: Colors.white,
       size: 35.0,
@@ -78,68 +93,80 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   Widget renderDoneBtn() {
-    return Icon(
+    return const Icon(
       Icons.done,
       color: Colors.white,
     );
   }
 
   Widget renderSkipBtn() {
-    return Icon(
+    return const Icon(
       Icons.skip_next,
       color: Colors.white,
     );
   }
 
   List<Widget> renderListCustomTabs() {
-    List<Widget> tabs = new List();
+    final List<Widget> tabs = [];
     for (int i = 0; i < slides.length; i++) {
-      Slide currentSlide = slides[i];
-      tabs.add(Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Container(
-          margin: EdgeInsets.only(bottom: 60.0, top: 60.0),
-          child: ListView(
-            children: <Widget>[
-              GestureDetector(
+      final Slide currentSlide = slides[i];
+      tabs.add(
+        SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Container(
+            margin: const EdgeInsets.only(
+              bottom: 60.0,
+              top: 60.0,
+            ),
+            child: ListView(
+              children: <Widget>[
+                GestureDetector(
                   child: Image.asset(
-                currentSlide.pathImage,
-                width: 200.0,
-                height: 200.0,
-                fit: BoxFit.contain,
-              )),
-              Container(
-                child: Text(
-                  currentSlide.title,
-                  style: currentSlide.styleTitle,
-                  textAlign: TextAlign.center,
+                    currentSlide.pathImage,
+                    width: 200.0,
+                    height: 200.0,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                margin: EdgeInsets.only(top: 20.0),
-              ),
-              Container(
-                child: Text(
-                  currentSlide.description,
-                  style: currentSlide.styleDescription,
-                  textAlign: TextAlign.center,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
+                Container(
+                  margin: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    currentSlide.title,
+                    style: currentSlide.styleTitle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                margin: EdgeInsets.only(top: 20.0),
-              ),
-            ],
+                Container(
+                  margin: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    currentSlide.description,
+                    style: currentSlide.styleDescription,
+                    textAlign: TextAlign.center,
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ));
+      );
     }
     return tabs;
   }
 
   ButtonStyle myButtonStyle() {
     return ButtonStyle(
-      shape: MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
-      backgroundColor: MaterialStateProperty.all<Color>(Color(0x33F3B4BA)),
-      overlayColor: MaterialStateProperty.all<Color>(Color(0x33FFA8B0)),
+      shape: MaterialStateProperty.all<OutlinedBorder>(
+        const StadiumBorder(),
+      ),
+      backgroundColor: MaterialStateProperty.all<Color>(
+        const Color(0x33F3B4BA),
+      ),
+      overlayColor: MaterialStateProperty.all<Color>(
+        const Color(0x33FFA8B0),
+      ),
     );
   }
 
@@ -150,15 +177,15 @@ class IntroScreenState extends State<IntroScreen> {
         // Show or hide status bar
 
         // Skip button
-        renderSkipBtn: this.renderSkipBtn(),
+        renderSkipBtn: renderSkipBtn(),
         skipButtonStyle: myButtonStyle(),
 
         // Next button
-        renderNextBtn: this.renderNextBtn(),
+        renderNextBtn: renderNextBtn(),
         nextButtonStyle: myButtonStyle(),
 
         // Done button
-        renderDoneBtn: this.renderDoneBtn(),
+        renderDoneBtn: renderDoneBtn(),
         onDonePress: () {
           checkFirstSeen();
         },
@@ -171,31 +198,31 @@ class IntroScreenState extends State<IntroScreen> {
         //typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
 
         // Tabs
-        listCustomTabs: this.renderListCustomTabs(),
+        listCustomTabs: renderListCustomTabs(),
         backgroundColorAllSlides: Colors.black87,
         refFuncGoToTab: (refFunc) {
-          this.goToTab = refFunc;
+          goToTab = refFunc;
         },
 
         // Behavior
-        scrollPhysics: BouncingScrollPhysics(),
+        scrollPhysics: const BouncingScrollPhysics(),
       ),
     );
   }
 
   Future checkFirstSeen() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('seen', true);
-    Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('seen', true).then((value) {
+      Navigator.pushNamed(context, '/validation');
+    });
   }
 
   Future checkPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool _seen = prefs.getBool('seen') ?? false;
     if (_seen) {
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new ValidationScreen()));
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, '/validation');
     }
   }
 }

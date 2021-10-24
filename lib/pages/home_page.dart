@@ -16,33 +16,34 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ///Translator
-  final translator = GoogleTranslator();
+  final GoogleTranslator translator = GoogleTranslator();
   bool isTranslated = false;
   String descriptionTranslated;
 
   ///Navegador lateral
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ///Declaring
   Widget mapWindow = Container();
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   double screenWidth;
   BitmapDescriptor customIcon;
   String siteN;
 
   ScrollController sc;
 
-  PanelController _pc = new PanelController();
+  final PanelController _pc = PanelController();
   final double _initFabHeight = 120.0;
+  // ignore: unused_field
   double _fabHeight;
   double _panelHeightOpen;
-  double _panelHeightClosed = 70.0;
+  final double _panelHeightClosed = 70.0;
 
   bool processing;
 
-  final spinkit = SpinKitChasingDots(
+  final SpinKitChasingDots spinkit = const SpinKitChasingDots(
     color: Colors.white,
-    size: 50.0,
   );
 
   @override
@@ -50,77 +51,85 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     processing = false;
     _fabHeight = _initFabHeight;
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 1.2),
-            'images/alien_marker.png')
-        .then((d) {
+    BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(
+        devicePixelRatio: 1.2,
+      ),
+      'images/alien_marker.png',
+    ).then((BitmapDescriptor d) {
       customIcon = d;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Marker> locationsList = [];
+    final List<Marker> locationsList = <Marker>[];
     _panelHeightOpen = MediaQuery.of(context).size.height * .80;
 
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Categories')
-            .where('CategoryName', isEqualTo: 'Ovnis')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return loading();
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('Categories')
+          .where('CategoryName', isEqualTo: 'Ovnis')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (!snapshot.hasData) return loading();
 
-          DocumentSnapshot query = snapshot.data.docs[0];
+        final DocumentSnapshot query =
+            snapshot.data.docs[0] as DocumentSnapshot;
 
-          /// Construindo o slide direamente do build
-          return WillPopScope(
-            onWillPop: () async => false,
-            child: SafeArea(
-              child: Scaffold(
-                key: _scaffoldKey,
-                drawer: drawerList(),
-                body: Stack(
-                  children: [
-                    SlidingUpPanel(
-                      controller: _pc,
-                      maxHeight: _panelHeightOpen,
-                      minHeight: _panelHeightClosed,
-                      parallaxEnabled: true,
-                      renderPanelSheet: false,
-                      parallaxOffset: .5,
-                      body: _buildGoogleMap(context, query, locationsList),
-                      panelBuilder: (sc) => _mapPopUp(sc),
-                      onPanelSlide: (double pos) => setState(() {
-                        _fabHeight =
-                            pos * (_panelHeightOpen - _panelHeightClosed) +
-                                _initFabHeight;
-                      }),
-                      onPanelClosed: () async {
-                        isTranslated = false;
-                      },
-                    ),
-                    topHeader(),
-                  ],
-                ),
+        /// Construindo o slide direamente do build
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: SafeArea(
+            child: Scaffold(
+              key: _scaffoldKey,
+              drawer: drawerList(),
+              body: Stack(
+                children: [
+                  SlidingUpPanel(
+                    controller: _pc,
+                    maxHeight: _panelHeightOpen,
+                    minHeight: _panelHeightClosed,
+                    parallaxEnabled: true,
+                    renderPanelSheet: false,
+                    parallaxOffset: .5,
+                    body: _buildGoogleMap(context, query, locationsList),
+                    panelBuilder: (sc) => _mapPopUp(sc),
+                    onPanelSlide: (double pos) => setState(() {
+                      _fabHeight =
+                          pos * (_panelHeightOpen - _panelHeightClosed) +
+                              _initFabHeight;
+                    }),
+                    onPanelClosed: () async {
+                      isTranslated = false;
+                    },
+                  ),
+                  topHeader(),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
-  loading() {
+  Scaffold loading() {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             spinkit,
             Text(
-              AppLocalizations.instance.translate("map_load"),
-              style: TextStyle(fontSize: 21, color: Colors.white),
+              AppLocalizations.instance.translate('map_load'),
+              style: const TextStyle(
+                fontSize: 21,
+                color: Colors.white,
+              ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
           ],
@@ -129,50 +138,54 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  drawerList() {
+  Drawer drawerList() {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: [
+        children: <Widget>[
           DrawerHeader(
             child: ListView(
-              children: [
-                imageUrl != null ? CircleAvatar(
-                  radius: 42,
-                  child: ClipOval(
-                    child: Image.network(
-                    imageUrl,
-                      fit: BoxFit.cover,
+              children: <Widget>[
+                if (imageUrl != null)
+                  CircleAvatar(
+                    radius: 42,
+                    child: ClipOval(
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                else
+                  CircleAvatar(
+                    radius: 42,
+                    child: ClipOval(
+                      child: Image.network(
+                        'https://i.pinimg.com/originals/45/03/47/450347b23049826628adb86af14c3871.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ): CircleAvatar(
-                  radius: 42,
-                  child: ClipOval(
-                    child: Image.network(
-                    'https://i.pinimg.com/originals/45/03/47/450347b23049826628adb86af14c3871.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
+                const SizedBox(
                   height: 24,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: name != null
                           ? Text(
                               name,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  letterSpacing: 1),
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                letterSpacing: 1,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             )
-                          : Text(''),
+                          : const Text(''),
                     ),
                     Image.asset(
                       'images/alien.png',
@@ -185,41 +198,47 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Column(
-            children: [
+            children: <Widget>[
               ListTile(
-                leading: Icon(Icons.leaderboard_outlined),
-                title:
-                    Text(AppLocalizations.instance.translate("drawer_first")),
+                leading: const Icon(
+                  Icons.leaderboard_outlined,
+                ),
+                title: Text(
+                  AppLocalizations.instance.translate('drawer_first'),
+                ),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/rec');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.info_outline),
-                title:
-                    Text(AppLocalizations.instance.translate("drawer_about")),
+                leading: const Icon(
+                  Icons.info_outline,
+                ),
+                title: Text(
+                  AppLocalizations.instance.translate('drawer_about'),
+                ),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/about');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.stars),
-                title: Text(AppLocalizations.instance.translate("pro")),
+                leading: const Icon(Icons.stars),
+                title: Text(AppLocalizations.instance.translate('pro')),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/pro');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.add),
-                title: Text("Adicionar avistamento"),
+                leading: const Icon(Icons.add),
+                title: const Text('Adicionar avistamento'),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, '/add');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.logout),
+                leading: const Icon(Icons.logout),
                 title:
-                    Text(AppLocalizations.instance.translate("drawer_logout")),
+                    Text(AppLocalizations.instance.translate('drawer_logout')),
                 onTap: () {
                   signOutWithGoogle(context);
                 },
@@ -231,27 +250,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  topHeader() {
+  Padding topHeader() {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 20),
-      child: Container(
-        child: Row(
-          children: [
-            ClipOval(
-              child: Material(
-                color: Colors.white60, // button color
-                child: InkWell(
-                  splashColor: Colors.grey, // inkwell color
-                  child: SizedBox(
-                      width: 56, height: 56, child: Icon(Icons.menu_rounded)),
-                  onTap: () {
-                    _scaffoldKey.currentState.openDrawer();
-                  },
+      child: Row(
+        children: <Widget>[
+          ClipOval(
+            child: Material(
+              color: Colors.white60, // button color
+              child: InkWell(
+                splashColor: Colors.grey, // inkwell color
+                child: const SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(Icons.menu_rounded),
                 ),
+                onTap: () {
+                  _scaffoldKey.currentState.openDrawer();
+                },
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -263,180 +283,190 @@ class _HomePageState extends State<HomePage> {
     GeoPoint loc,
   ) {
     return Marker(
-        markerId: MarkerId(shortName),
-        position: LatLng(loc.latitude, loc.longitude),
-        icon: customIcon,
-        onTap: () {
-          setState(() {
-            siteN = longName;
-            mapWindow = _mapPopUp(sc);
-          });
+      markerId: MarkerId(shortName),
+      position: LatLng(loc.latitude, loc.longitude),
+      icon: customIcon,
+      onTap: () {
+        setState(() {
+          siteN = longName;
+          mapWindow = _mapPopUp(sc);
         });
+      },
+    );
   }
 
   Widget _mapPopUp(ScrollController sc) {
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: firestore
-          .collection("/Categories/Ovnis/Sites")
+          .collection('/Categories/Ovnis/Sites')
           .where('siteName', isEqualTo: siteN)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         //This return While the map is Loading
-        if (!snapshot.hasData)
-          return Container(
-            child: Center(
-              child: Text(AppLocalizations.instance.translate("loading")),
-            ),
+        if (!snapshot.hasData) {
+          return Center(
+            child: Text(AppLocalizations.instance.translate('loading')),
           );
-        DocumentSnapshot query = snapshot.data.docs[0];
+        }
+        final DocumentSnapshot<Object> query =
+            snapshot.data.docs[0] as DocumentSnapshot<Object>;
 
-        String title = query['title'];
-        String imgURL = query['ImageURL'];
-        String description = query['description'];
-        String fonte = query['fontUrl'];
+        final String title = query['title'] as String;
+        final String imgURL = query['ImageURL'] as String;
+        final String description = query['description'] as String;
+        final String fonte = query['fontUrl'] as String;
 
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Container(
-              child: ListView(
-                controller: sc,
-                children: [
-                  Icon(
-                    Icons.keyboard_arrow_up_outlined,
-                    color: Colors.white70,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 32, right: 32),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
+            child: ListView(
+              controller: sc,
+              children: <Widget>[
+                const Icon(
+                  Icons.keyboard_arrow_up_outlined,
+                  color: Colors.white70,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          width: 50,
-                          height: 50,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              imgURL,
-                              fit: BoxFit.cover,
-                            ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 10,
+                        ),
+                        width: 50,
+                        height: 50,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            imgURL,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, left: 32, right: 32),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 2,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          imgURL,
-                          fit: BoxFit.cover,
-                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 32, right: 32),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        imgURL,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 32, right: 32, top: 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 52,
-                      child: ElevatedButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.translate,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Translate to English',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32, top: 20),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 52,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
-                            onPrimary: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)))),
-                        onPressed: () {
-                          setState(() {
-                            translator
-                                .translate(description, to: 'en')
-                                .then((result) {
-                              setState(() {
-                                descriptionTranslated = result.text;
-                                isTranslated = true;
-                              });
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          translator
+                              .translate(description, to: 'en')
+                              .then((Translation result) {
+                            setState(() {
+                              descriptionTranslated = result.text;
+                              isTranslated = true;
                             });
                           });
-                        },
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.translate,
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Translate to English',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 32, right: 32, top: 24),
-                    child: isTranslated == false
-                        ? Text(
-                            description,
-                            textAlign: TextAlign.justify,
-                            style:
-                                TextStyle(color: Colors.white70, fontSize: 21),
-                            softWrap: true,
-                          )
-                        : Text(
-                            descriptionTranslated,
-                            textAlign: TextAlign.justify,
-                            style:
-                                TextStyle(color: Colors.white70, fontSize: 21),
-                            softWrap: true,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32, top: 24),
+                  child: isTranslated == false
+                      ? Text(
+                          description,
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 21,
                           ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 32, right: 32, top: 24),
-                    child: Text(
-                      'Fonte: $fonte',
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(color: Colors.blueGrey),
-                      softWrap: true,
+                          softWrap: true,
+                        )
+                      : Text(
+                          descriptionTranslated,
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 21,
+                          ),
+                          softWrap: true,
+                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32, top: 24),
+                  child: Text(
+                    'Fonte: $fonte',
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      color: Colors.blueGrey,
                     ),
+                    softWrap: true,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
           ),
         );
@@ -445,38 +475,53 @@ class _HomePageState extends State<HomePage> {
   }
 
   ///Building map
-  _buildGoogleMap(BuildContext context, DocumentSnapshot query,
-      List<Marker> locationsList) {
-    GeoPoint campusLoc = query['Location'];
-    double campusZoom = query['Zoom'].toDouble();
-    return StreamBuilder(
+  StreamBuilder<QuerySnapshot<Object>> _buildGoogleMap(
+    BuildContext context,
+    DocumentSnapshot query,
+    List<Marker> locationsList,
+  ) {
+    final GeoPoint campusLoc = query['Location'] as GeoPoint;
+    final double campusZoom = query['Zoom'] as double;
+    return StreamBuilder<QuerySnapshot<Object>>(
       stream: checkingCategory().asStream(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<QuerySnapshot<Object>> snapshot,
+      ) {
+        if (!snapshot.hasData) {
           return Center(
-              child: Text(AppLocalizations.instance.translate("loading")));
+            child: Text(
+              AppLocalizations.instance.translate('loading'),
+            ),
+          );
+        }
         for (int i = 0; i < snapshot.data.docs.length; i++) {
-          DocumentSnapshot snap = snapshot.data.docs[i];
+          final QueryDocumentSnapshot<Object> snap = snapshot.data.docs[i];
           locationsList.add(
-              markerHelper(snap['siteName'], snap['title'], snap['location']));
+            markerHelper(
+              snap['siteName'] as String,
+              snap['title'] as String,
+              snap['location'] as GeoPoint,
+            ),
+          );
         }
         return Column(
-          children: [
+          children: <Widget>[
             Expanded(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: GoogleMap(
-                  zoomGesturesEnabled: true,
                   mapType: MapType.terrain,
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(campusLoc.latitude, campusLoc.longitude),
-                      zoom: campusZoom),
+                    target: LatLng(campusLoc.latitude, campusLoc.longitude),
+                    zoom: campusZoom,
+                  ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
                   },
-                  markers: Set.from(locationsList),
-                  onTap: (argument) async {
+                  markers: Set<Marker>.from(locationsList),
+                  onTap: (LatLng argument) async {
                     setState(() async {
                       mapWindow = Container();
                     });

@@ -1,4 +1,4 @@
-import 'package:enigmamap520/Models/auth.dart';
+import 'package:enigmamap520/models/auth.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +15,8 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: Colors.black,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height / 2,
               child: loginImg(),
             ),
@@ -30,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  loginImg() {
+  Widget loginImg() {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(left: 21.0, right: 21, top: 42),
@@ -45,48 +44,52 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  enigmaTxt() {
-    return Text(
+  Widget enigmaTxt() {
+    return const Text(
       'Ufo Tracker',
       style: TextStyle(
-          fontSize: 42,
-          color: Colors.white,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.bold),
-    );
-  }
-
-  enigmaDes() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
-      child: Text(
-        AppLocalizations.instance.translate("description_text"),
-        textAlign: TextAlign.center,
-        style:
-            TextStyle(fontSize: 24, color: Colors.grey, fontFamily: 'Roboto'),
+        fontSize: 42,
+        color: Colors.white,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.bold,
       ),
     );
   }
 
-  roundedSignInButton() {
+  Widget enigmaDes() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 32, right: 32),
+      child: Text(
+        AppLocalizations.instance.translate('description_text'),
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 24,
+          color: Colors.grey,
+          fontFamily: 'Roboto',
+        ),
+      ),
+    );
+  }
+
+  Expanded roundedSignInButton() {
     return Expanded(
       child: Align(
         alignment: FractionalOffset.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(left: 32, right: 32, bottom: 42),
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: 62,
             child: ElevatedButton(
-              child: Text(
-                AppLocalizations.instance.translate("sign_in"),
-                style: TextStyle(color: Colors.black87, fontSize: 24),
-              ),
               style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  onPrimary: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)))),
+                primary: Colors.white,
+                onPrimary: Colors.white,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+              ),
               onPressed: () {
                 ///Login with Google
                 signInWithGoogle(context).then((result) {
@@ -95,6 +98,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   }
                 });
               },
+              child: Text(
+                AppLocalizations.instance.translate('sign_in'),
+                style: const TextStyle(color: Colors.black87, fontSize: 24),
+              ),
             ),
           ),
         ),

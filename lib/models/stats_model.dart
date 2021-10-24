@@ -5,12 +5,16 @@ final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 int amountOfPosts = 0;
 
-Future<void> getAmount() async{
-  firestore.collection('Categories').doc('Ovnis').collection('stats').get().then((querySnapshot){
-    querySnapshot.docs.forEach((result) {
-      print(result.data()['stats_amount']);
-
-      amountOfPosts = result.data()['stats_amount'];
-    });
+Future<void> getAmount() async {
+  firestore
+      .collection('Categories')
+      .doc('Ovnis')
+      .collection('stats')
+      .get()
+      .then((QuerySnapshot<Map<String, dynamic>> querySnapshot) {
+    for (final QueryDocumentSnapshot<Map<String, dynamic>> result
+        in querySnapshot.docs) {
+      amountOfPosts = result.data()['stats_amount'] as int;
+    }
   });
 }

@@ -11,40 +11,35 @@ String userId;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 User user = _auth.currentUser;
 
-Future<String> signInWithGoogle(BuildContext context) async {
-  try {
-    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-    await googleSignInAccount.authentication;
+Future<void> signInWithGoogle(BuildContext context) async {
+  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+  final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
+  final AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleSignInAuthentication.accessToken,
+    idToken: googleSignInAuthentication.idToken,
+  );
 
-    final UserCredential authResult =
-    await _auth.signInWithCredential(credential);
+  final UserCredential authResult =
+      await _auth.signInWithCredential(credential);
 
-    final User user = authResult.user;
+  final User user = authResult.user;
 
-    assert(user.uid != null);
-    userId = user.uid;
-    imageUrl = user.photoURL.toString();
-    name = user.displayName.toString();
-  } catch (error) {
-    print('$error + '
-        'erro ao entrar com o Google');
-  }
+  assert(user.uid != null);
+  userId = user.uid;
+  imageUrl = user.photoURL;
+  name = user.displayName;
 }
 
-Future<String> checkingCurrentUser(BuildContext context) async {
+Future<void> checkingCurrentUser(BuildContext context) async {
   googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
     currentUser = account;
     userId = user.uid;
 
-    if(currentUser != null){
-      imageUrl = currentUser.photoUrl.toString();
-      name = currentUser.displayName.toString();
+    if (currentUser != null) {
+      imageUrl = currentUser.photoUrl;
+      name = currentUser.displayName;
       Navigator.pushReplacementNamed(context, '/map');
     } else {
       getCurrentUser(context);
@@ -54,13 +49,13 @@ Future<String> checkingCurrentUser(BuildContext context) async {
 }
 
 Future<void> signOutWithGoogle(BuildContext context) async {
-  _auth.signOut().then((value){
+  _auth.signOut().then((value) {
     googleSignIn.signOut();
     Navigator.pushReplacementNamed(context, 'signIn');
   });
 }
 
-Future<User> getCurrentUser(BuildContext context) async {
+Future<void> getCurrentUser(BuildContext context) async {
   user = _auth.currentUser;
   if (user == null) {
     Future.delayed(Duration.zero, () {

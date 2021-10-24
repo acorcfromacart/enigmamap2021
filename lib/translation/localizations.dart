@@ -4,25 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalizations {
-
-  static final AppLocalizations _singleton = new AppLocalizations._internal();
   AppLocalizations._internal();
+  static final AppLocalizations _singleton = AppLocalizations._internal();
+
   static AppLocalizations get instance => _singleton;
 
   Map<dynamic, dynamic> _localisedValues;
 
   Future<AppLocalizations> load(Locale locale) async {
-    String jsonContent =
-    await rootBundle.loadString("lang/${locale.languageCode}.json");
-    _localisedValues = json.decode(jsonContent);
+    final String jsonContent =
+        await rootBundle.loadString('lang/${locale.languageCode}.json');
+    _localisedValues = json.decode(jsonContent) as Map<dynamic, dynamic>;
     return this;
   }
 
   String translate(String key) {
-    return _localisedValues[key];
+    return _localisedValues[key] as String;
   }
 }
-
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
@@ -31,7 +30,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   bool isSupported(Locale locale) => ['en', 'pt'].contains(locale.languageCode);
 
   @override
-  Future<AppLocalizations> load(Locale locale)  {
+  Future<AppLocalizations> load(Locale locale) {
     return AppLocalizations.instance.load(locale);
   }
 

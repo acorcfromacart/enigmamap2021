@@ -14,12 +14,12 @@ class _AboutScreenState extends State<AboutScreen> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text(
+            title: const Text(
               'Sobre',
               style: TextStyle(color: Colors.black87),
             ),
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
                 color: Colors.black,
               ),
@@ -30,8 +30,8 @@ class _AboutScreenState extends State<AboutScreen> {
           ),
           backgroundColor: Colors.white,
           body: ListView(
-            children: [
-              SizedBox(
+            children: <Widget>[
+              const SizedBox(
                 height: 60,
               ),
               Center(
@@ -41,13 +41,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   height: MediaQuery.of(context).size.height / 4,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(21.0),
+              const Padding(
+                padding: EdgeInsets.all(21.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('ENIGMA\nMAP',
-                      style:
-                      TextStyle(fontSize: 48, fontWeight: FontWeight.w500)),
+                  child: Text(
+                    'ENIGMA\nMAP',
+                    style: TextStyle(fontSize: 48, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
               Padding(
@@ -68,7 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 62,
                       child: ElevatedButton(
@@ -81,18 +82,21 @@ class _AboutScreenState extends State<AboutScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        child: Text('Política de privacidade', style: TextStyle(fontSize: 21),),
+                        child: const Text(
+                          'Política de privacidade',
+                          style: TextStyle(fontSize: 21),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 62,
                   child: ElevatedButton(
@@ -105,7 +109,10 @@ class _AboutScreenState extends State<AboutScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    child: Text('Termos de uso', style: TextStyle(fontSize: 21)),
+                    child: const Text(
+                      'Termos de uso',
+                      style: TextStyle(fontSize: 21),
+                    ),
                   ),
                 ),
               ),

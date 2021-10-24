@@ -5,17 +5,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GetMapLocationScreen extends StatefulWidget {
-  GetMapLocationScreen({Key key}) : super(key: key);
+  const GetMapLocationScreen({Key key}) : super(key: key);
 
   @override
   _GetMapLocationScreenState createState() => _GetMapLocationScreenState();
 }
 
 class _GetMapLocationScreenState extends State<GetMapLocationScreen> {
-  List<Marker> _markers = [];
+  final List<Marker> _markers = <Marker>[];
   GoogleMapController mapController;
-  final Geolocator _geolocator = Geolocator();
-  Position _currentPosition;
   bool tapOnMap = false;
 
   String dLatitude;
@@ -38,18 +36,16 @@ class _GetMapLocationScreenState extends State<GetMapLocationScreen> {
         backgroundColor: Colors.black,
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: GoogleMap(
-                markers: Set.from(_markers),
-                zoomGesturesEnabled: true,
+                markers: Set<Marker>.from(_markers),
                 myLocationEnabled: true,
-                myLocationButtonEnabled: true,
                 zoomControlsEnabled: false,
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
                   target: LatLng(-10.105430, -49.306582),
                 ),
                 onTap: _handleTap,
@@ -59,72 +55,76 @@ class _GetMapLocationScreenState extends State<GetMapLocationScreen> {
               ),
             ),
           ),
-          tapOnMap == true
-              ? _buttonSend()
-              : SizedBox(
-                  height: 0,
-                ),
+          if (tapOnMap == true)
+            _buttonSend()
+          else
+            const SizedBox(
+              height: 0,
+            ),
         ],
       ),
     );
   }
 
-  _handleTap(LatLng point) {
+  dynamic _handleTap(LatLng point) {
     _markers.clear();
     setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId(point.toString()),
-        position: point,
-        infoWindow: InfoWindow(
-          title: 'Esse é o lugar do avistamento',
+      _markers.add(
+        Marker(
+          markerId: MarkerId(point.toString()),
+          position: point,
+          infoWindow: const InfoWindow(
+            title: 'Esse é o lugar do avistamento',
+          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-      ));
+      );
 
-      //getting coordinates numbers and IT´S WORKING
-      // var lat = double.tryParse(point.latitude.toString());
-      // var long = double.tryParse(point.longitude.toString());
-
-      String lat = point.latitude.toString();
-      String long = point.longitude.toString();
+      final String lat = point.latitude.toString();
+      final String long = point.longitude.toString();
       dLatitude = lat;
       dLongitude = long;
-
-      print(lat);
-      print(long);
     });
     tapOnMap = true;
   }
 
-  _buttonSend() {
+  GestureDetector _buttonSend() {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SendForm(
-                      latitude: dLatitude,
-                      longitude: dLongitude,
-                    )));
+          context,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => SendForm(
+              latitude: dLatitude,
+              longitude: dLongitude,
+            ),
+          ),
+        );
       },
       child: Container(
         color: Colors.black,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 10,
+          ),
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: 56,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color(0xff111724),
+              color: const Color(0xff111724),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Center(
                   child: Text(
                     AppLocalizations.instance.translate('fill_the_fields'),
-                    style: TextStyle(color: Colors.white70, fontSize: 18),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                    ),
                   ),
                 )
               ],
@@ -145,7 +145,7 @@ class _GetMapLocationScreenState extends State<GetMapLocationScreen> {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      return Future.error('Location services are disabled.');
+      return Future<Position>.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
@@ -157,18 +157,19 @@ class _GetMapLocationScreenState extends State<GetMapLocationScreen> {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
+        return Future<Position>.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return Future<Position>.error(
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    return Geolocator.getCurrentPosition();
   }
 }

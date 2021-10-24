@@ -12,10 +12,10 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     return Scaffold(
       backgroundColor: Colors.white70,
       appBar: AppBar(
-        title: Text('Política de Privacidade'),
+        title: const Text('Política de Privacidade'),
         backgroundColor: Colors.blueGrey,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -28,7 +28,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
         children: [
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Text(AppLocalizations.instance.translate("privacy_policy")),
+            child: Text(AppLocalizations.instance.translate('privacy_policy')),
           ),
         ],
       ),

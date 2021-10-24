@@ -4,7 +4,7 @@ import 'package:enigmamap520/pages/home_page.dart';
 import 'package:enigmamap520/pages/intro.dart';
 import 'package:enigmamap520/pages/privacy_policy.dart';
 import 'package:enigmamap520/pages/pro_version.dart';
-import 'package:enigmamap520/pages/signIn.dart';
+import 'package:enigmamap520/pages/sign_in.dart';
 import 'package:enigmamap520/pages/terms.dart';
 import 'package:enigmamap520/recordedDatas/recorded_datas.dart';
 import 'package:enigmamap520/translation/localizations.dart';
@@ -30,66 +30,73 @@ class _EnigmaMapState extends State<EnigmaMap> {
   Widget build(BuildContext context) {
     return MaterialApp(
       ///Trying to build responsive app
-      builder: (context, widget) => ResponsiveWrapper.builder(
+      builder: (BuildContext context, Widget widget) =>
+          ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, widget),
         maxWidth: 1200,
         minWidth: 420,
         defaultScale: true,
         breakpoints: [
-          ResponsiveBreakpoint.resize(480,name: MOBILE),
-          ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-        ]
+          const ResponsiveBreakpoint.resize(480, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
       ),
       title: 'Ufo Tracker',
       debugShowCheckedModeBanner: false,
       initialRoute: '/validation',
-      onGenerateRoute: (settings) {
+      onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case '/intro':
-            return MaterialPageRoute(builder: (_) => IntroScreen());
+            return MaterialPageRoute<dynamic>(
+              builder: (_) => const IntroScreen(),
+            );
           case '/map':
-            return MaterialPageRoute(builder: (_) => HomePage());
+            return MaterialPageRoute<dynamic>(builder: (_) => HomePage());
           case '/signIn':
-            return MaterialPageRoute(builder: (_) => SignInScreen());
+            return MaterialPageRoute<dynamic>(builder: (_) => SignInScreen());
           case '/rec':
-            return MaterialPageRoute(builder: (_) => RecordedData());
+            return MaterialPageRoute<dynamic>(builder: (_) => RecordedData());
           case '/about':
-            return MaterialPageRoute(builder: (_) => AboutScreen());
+            return MaterialPageRoute<dynamic>(builder: (_) => AboutScreen());
           case '/privacy':
-            return MaterialPageRoute(builder: (_) => PrivacyPolicy());
+            return MaterialPageRoute<dynamic>(builder: (_) => PrivacyPolicy());
           case '/terms':
-            return MaterialPageRoute(builder: (_) => Terms());
+            return MaterialPageRoute<dynamic>(builder: (_) => Terms());
           case '/add':
-            return MaterialPageRoute(builder: (_) => GetMapLocationScreen());
+            return MaterialPageRoute<dynamic>(
+              builder: (_) => const GetMapLocationScreen(),
+            );
           case '/pro':
-            return MaterialPageRoute(builder: (_) => ProVersion());
+            return MaterialPageRoute<dynamic>(builder: (_) => ProVersion());
           case '/validation':
           default:
-            return MaterialPageRoute(builder: (_) => ValidationScreen());
+            return MaterialPageRoute<dynamic>(
+              builder: (_) => ValidationScreen(),
+            );
         }
       },
-      localizationsDelegates: [
-        const AppLocalizationsDelegate(),
+      localizationsDelegates: const [
+        AppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('pt', 'BR'),
-        const Locale('en', 'CA'),
-        const Locale('en', 'AU'),
-        const Locale('es', 'MX'),
-        const Locale('es', 'ES'),
-        const Locale('fr', 'FR'),
-        const Locale('ko', 'KO'),
-        const Locale('ru', 'RU'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
+        Locale('en', 'CA'),
+        Locale('en', 'AU'),
+        Locale('es', 'MX'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('ko', 'KO'),
+        Locale('ru', 'RU'),
 
         // ... other locales the app supports
       ],
       localeResolutionCallback:
           (Locale locale, Iterable<Locale> supportedLocales) {
-        for (Locale supportedLocale in supportedLocales) {
+        for (final Locale supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale.languageCode ||
               supportedLocale.countryCode == locale.countryCode) {
             return supportedLocale;
