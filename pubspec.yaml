@@ -97,6 +97,7 @@ flutter:
     - images/slide1.png
     - images/slide2.png
     - images/slide3.png
+    - assets/map_style.txt
 
     - lang/en.json
     - lang/pt.json

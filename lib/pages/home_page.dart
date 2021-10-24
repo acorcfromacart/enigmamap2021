@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enigmamap520/events/event.dart';
 import 'package:enigmamap520/models/auth.dart';
 import 'package:enigmamap520/translation/localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -19,14 +19,14 @@ class _HomePageState extends State<HomePage> {
   final GoogleTranslator translator = GoogleTranslator();
   bool isTranslated = false;
   String descriptionTranslated;
+  String _mapStyle;
 
   ///Navegador lateral
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ///Declaring
   Widget mapWindow = Container();
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  GoogleMapController mapController;
   double screenWidth;
   BitmapDescriptor customIcon;
   String siteN;
@@ -51,12 +51,13 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     processing = false;
     _fabHeight = _initFabHeight;
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
     BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(
-        devicePixelRatio: 1.2,
-      ),
+      const ImageConfiguration(devicePixelRatio: 1.2),
       'images/alien_marker.png',
-    ).then((BitmapDescriptor d) {
+    ).then((d) {
       customIcon = d;
     });
   }
@@ -518,7 +519,8 @@ class _HomePageState extends State<HomePage> {
                     zoom: campusZoom,
                   ),
                   onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
+                    mapController = controller;
+                    mapController.setMapStyle(_mapStyle);
                   },
                   markers: Set<Marker>.from(locationsList),
                   onTap: (LatLng argument) async {
